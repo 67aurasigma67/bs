@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyBuddy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-body-tertiary">
+
+<div class="d-flex min-vh-100">
+  <aside class="bg-light border-end p-3 sticky-top" style="min-width: 220px;">
+    <h5 class="mb-4">StudyBuddy</h5>
+
+    <nav class="nav nav-pills flex-column gap-1">
+      <a href="#home" data-page="home" class="nav-link active">⭐ Home</a>
+      <a href="#new-session" data-page="new-session" class="nav-link text-body">➕ New Session</a>
+      <a href="#timer" data-page="timer" class="nav-link text-body">⏱️ Timer</a>
+      <a href="#history" data-page="history" class="nav-link text-body">📚 History</a>
+    </nav>
+  </aside>
+
+  <main class="flex-grow-1 p-4">
+    <!-- HOME -->
+    <section id="home" class="page">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <h4 class="m-0">Welcome back!</h4>
+        <input type="text" class="form-control rounded-pill" style="max-width: 250px;" placeholder="Search">
+      </div>
+
+      <div class="card shadow-sm mb-3">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <small class="text-muted">Quick start:</small><br>
+            <strong>Last session: Matematika</strong>
+          </div>
+          <button class="btn btn-primary rounded-circle js-quick-start"
+                  data-subject="Matematika"
+                  data-duration="55"
+                  data-repeats="4"
+                  style="width: 44px; height: 44px;"
+                  type="button">▶</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="card shadow-sm mb-3">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Matematika</strong><br>
+            <small class="text-muted">55 min • 1/4</small>
+          </div>
+          <button class="btn btn-primary rounded-circle js-session-start"
+                  data-subject="Matematika"
+                  data-duration="55"
+                  data-repeats="4"
+                  style="width: 44px; height: 44px;"
+                  type="button">▶</button>
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-3">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Fizika</strong><br>
+            <small class="text-muted">40 min • 3/4</small>
+          </div>
+          <button class="btn btn-primary rounded-circle js-session-start"
+                  data-subject="Fizika"
+                  data-duration="40"
+                  data-repeats="4"
+                  style="width: 44px; height: 44px;"
+                  type="button">▶</button>
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-3">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Srpski</strong><br>
+            <small class="text-muted">25 min • 0/4</small>
+          </div>
+          <button class="btn btn-primary rounded-circle js-session-start"
+                  data-subject="Srpski"
+                  data-duration="25"
+                  data-repeats="4"
+                  style="width: 44px; height: 44px;"
+                  type="button">▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW SESSION -->
+    <section id="new-session" class="page d-none">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h4 class="mb-4 text-center">New session</h4>
+
+              <label class="form-label">Subject</label>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <button class="btn btn-outline-secondary js-subject-btn" data-subject="Matematika" type="button">Matematika</button>
+                <button class="btn btn-outline-secondary js-subject-btn" data-subject="Fizika" type="button">Fizika</button>
+                <button class="btn btn-primary js-subject-btn active" data-subject="Srpski" type="button">Srpski</button>
+              </div>
+
+              <input type="text" id="subjectInput" class="form-control mb-4" value="Srpski">
+
+              <label for="duration" class="form-label">Duration</label>
+              <div class="d-flex align-items-center mb-4">
+                <input type="range" class="form-range" id="duration" min="10" max="120" step="5" value="50">
+                <span class="badge text-bg-dark ms-2" id="durationValue">50 min</span>
+              </div>
+
+              <label for="repeats" class="form-label">Repeats</label>
+              <div class="d-flex align-items-center">
+                <input type="range" class="form-range" id="repeats" min="1" max="5" step="1" value="1">
+                <span class="badge text-bg-dark ms-2" id="repeatsValue">1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMER -->
+    <section id="timer" class="page d-none">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 text-center">
+          <div class="card shadow-sm">
+            <div class="card-body py-5">
+              <h4 class="mb-3">Ongoing session</h4>
+              <div class="text-muted mb-3" id="timerMeta">Subject: Srpski • Repeats: 1</div>
+              <div id="timerDisplay" class="display-1 fw-bold text-primary mb-4">25:00</div>
+
+              <div class="progress mb-4" style="height: 8px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%;"></div>
+              </div>
+
+              <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <button id="stopBtn" class="btn btn-outline-secondary px-4" type="button">Stop</button>
+                <button id="pauseBtn" class="btn btn-outline-secondary px-4" type="button">Pause</button>
+                <button id="finishBtn" class="btn btn-primary px-4" type="button">Finish</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPLETE -->
+    <section id="complete" class="page d-none">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h4 class="mb-4">Session complete!</h4>
+
+              <div class="mb-4">
+                <label for="quickNote" class="form-label fw-bold">Add a quick note...</label>
+                <textarea id="quickNote" class="form-control" rows="6" placeholder="Today I learned..."></textarea>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-primary" id="saveNoteBtn" type="button">💾 Save</button>
+                <button class="btn btn-outline-secondary" id="skipNoteBtn" type="button">▶ Skip note</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="history" class="page d-none">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+          <h4 class="mb-4">Completed sessions</h4>
+
+          <div class="card shadow-sm mb-4">
+            <img src="burnabitch.png" class="card-img-top img-fluid" alt="History image">
+            <div class="card-body">
+              <div class="text-muted small mb-1">2025-06-07</div>
+              <div><strong>Matematika</strong><br><small class="text-muted">35 min</small></div>
+            </div>
+          </div>
+
+          <div class="card shadow-sm mb-3">
+            <div class="card-body">
+              <div class="text-muted small mb-1">2025-04-20</div>
+              <div><strong>Srpski</strong><br><small class="text-muted">90 min</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<a href="#new-session" class="btn btn-primary rounded-pill position-fixed bottom-0 end-0 m-4 shadow">
+  + New session
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const pages = [...document.querySelectorAll('.page')];
+  const navLinks = [...document.querySelectorAll('.nav-link[data-page]')];
+
+  const subjectInput = document.getElementById('subjectInput');
+  const durationInput = document.getElementById('duration');
+  const repeatsInput = document.getElementById('repeats');
+  const durationValue = document.getElementById('durationValue');
+  const repeatsValue = document.getElementById('repeatsValue');
+
+  const timerDisplay = document.getElementById('timerDisplay');
+  const timerMeta = document.getElementById('timerMeta');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const finishBtn = document.getElementById('finishBtn');
+
+  const saveNoteBtn = document.getElementById('saveNoteBtn');
+  const skipNoteBtn = document.getElementById('skipNoteBtn');
+  const quickNote = document.getElementById('quickNote');
+
+  const subjectButtons = [...document.querySelectorAll('.js-subject-btn')];
+  const sessionButtons = [...document.querySelectorAll('.js-session-start')];
+  const quickStartButtons = [...document.querySelectorAll('.js-quick-start')];
+
+  const state = {
+    subject: 'Srpski',
+    duration: 50,
+    repeats: 1,
+    remaining: 50 * 60,
+    interval: null,
+    paused: false
+  };
+
+  function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function updateTimerDisplay() {
+    timerDisplay.textContent = formatTime(state.remaining);
+  }
+
+  function updateTimerMeta() {
+    timerMeta.textContent = `Subject: ${state.subject} • Repeats: ${state.repeats}`;
+  }
+
+  function updateSubjectButtons(activeSubject) {
+    subjectButtons.forEach(btn => {
+      const active = btn.dataset.subject === activeSubject;
+      btn.classList.toggle('btn-primary', active);
+      btn.classList.toggle('btn-outline-secondary', !active);
+      btn.classList.toggle('active', active);
+    });
+  }
+
+  function syncNewSessionUI() {
+    subjectInput.value = state.subject;
+    durationInput.value = state.duration;
+    repeatsInput.value = state.repeats;
+    durationValue.textContent = `${state.duration} min`;
+    repeatsValue.textContent = state.repeats;
+    updateSubjectButtons(state.subject);
+    updateTimerMeta();
+  }
+
+  function setSession(subject, duration, repeats) {
+    state.subject = subject;
+    state.duration = Number(duration);
+    state.repeats = Number(repeats);
+    state.remaining = state.duration * 60;
+    state.paused = false;
+    pauseBtn.textContent = 'Pause';
+    updateTimerDisplay();
+    syncNewSessionUI();
+  }
+
+  function clearTimer() {
+    if (state.interval) {
+      clearInterval(state.interval);
+      state.interval = null;
+    }
+  }
+
+  function startTimer() {
+    clearTimer();
+    state.paused = false;
+    pauseBtn.textContent = 'Pause';
+    state.remaining = state.duration * 60;
+    updateTimerDisplay();
+    updateTimerMeta();
+
+    state.interval = setInterval(() => {
+      if (state.paused) return;
+
+      if (state.remaining > 0) {
+        state.remaining -= 1;
+        updateTimerDisplay();
+      }
+
+      if (state.remaining <= 0) {
+        clearTimer();
+        location.hash = '#complete';
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearTimer();
+    state.paused = false;
+    pauseBtn.textContent = 'Pause';
+    state.remaining = state.duration * 60;
+    updateTimerDisplay();
+  }
+
+  function showPage(pageId) {
+    pages.forEach(page => page.classList.toggle('d-none', page.id !== pageId));
+    navLinks.forEach(link => {
+      const active = link.dataset.page === pageId;
+      link.classList.toggle('active', active);
+      link.classList.toggle('text-body', !active);
+      link.classList.toggle('text-white', active);
+    });
+
+    if (pageId === 'new-session') {
+      syncNewSessionUI();
+    }
+
+    if (pageId === 'timer') {
+      if (!state.interval && state.remaining <= 0) {
+        state.remaining = state.duration * 60;
+      }
+      updateTimerDisplay();
+      updateTimerMeta();
+    }
+  }
+
+  function route() {
+    const pageId = location.hash.replace('#', '') || 'home';
+    showPage(pageId);
+  }
+
+  subjectButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.subject = btn.dataset.subject;
+      subjectInput.value = state.subject;
+      updateSubjectButtons(state.subject);
+      updateTimerMeta();
+    });
+  });
+
+  durationInput.addEventListener('input', () => {
+    state.duration = Number(durationInput.value);
+    state.remaining = state.duration * 60;
+    durationValue.textContent = `${state.duration} min`;
+    updateTimerDisplay();
+  });
+
+  repeatsInput.addEventListener('input', () => {
+    state.repeats = Number(repeatsInput.value);
+    repeatsValue.textContent = state.repeats;
+    updateTimerMeta();
+  });
+
+  subjectInput.addEventListener('input', () => {
+    state.subject = subjectInput.value.trim() || 'Srpski';
+    updateSubjectButtons(state.subject);
+    updateTimerMeta();
+  });
+
+  sessionButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setSession(btn.dataset.subject, btn.dataset.duration, btn.dataset.repeats);
+      location.hash = '#timer';
+      startTimer();
+    });
+  });
+
+  quickStartButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setSession(btn.dataset.subject, btn.dataset.duration, btn.dataset.repeats);
+      location.hash = '#timer';
+      startTimer();
+    });
+  });
+
+  pauseBtn.addEventListener('click', () => {
+    if (!state.interval) return;
+    state.paused = !state.paused;
+    pauseBtn.textContent = state.paused ? 'Resume' : 'Pause';
+  });
+
+  stopBtn.addEventListener('click', stopTimer);
+
+  finishBtn.addEventListener('click', () => {
+    clearTimer();
+    location.hash = '#complete';
+  });
+
+  saveNoteBtn.addEventListener('click', () => {
+    const note = quickNote.value.trim();
+    if (!note) {
+      alert('Dodaj kratku belešku pre čuvanja.');
+      return;
+    }
+
+    alert('Beleška sačuvana: ' + note);
+    quickNote.value = '';
+    location.hash = '#home';
+  });
+
+  skipNoteBtn.addEventListener('click', () => {
+    quickNote.value = '';
+    location.hash = '#home';
+  });
+
+  window.addEventListener('hashchange', route);
+  window.addEventListener('load', () => {
+    syncNewSessionUI();
+    updateTimerDisplay();
+    route();
+  });
+</script>
+</body>
+</html>
