@@ -5,656 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>StudyBuddy</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --accent: #4f46e5;
-      --accent-light: #eef2ff;
-      --text-muted: #9ca3af;
-      --border: #e5e7eb;
-      --bg: #f9fafb;
-      --card-bg: #ffffff;
-      --sidebar-w: 220px;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      margin: 0;
-    }
-
-    /* ── SIDEBAR ── */
-    aside {
-      width: var(--sidebar-w);
-      min-height: 100vh;
-      background: var(--card-bg);
-      border-right: 1px solid var(--border);
-      padding: 24px 16px;
-      position: sticky;
-      top: 0;
-    }
-    aside h5 {
-      font-weight: 700;
-      font-size: 1rem;
-      color: #111;
-      margin-bottom: 28px;
-      padding-left: 8px;
-    }
-    .nav-link {
-      color: #374151;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 0.875rem;
-      transition: background 0.15s, color 0.15s;
-    }
-    .nav-link.active,
-    .nav-link:hover {
-      background: var(--accent-light);
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    /* ── MAIN ── */
-    main { padding: 24px 20px 80px; max-width: 480px; }
-    @media (min-width: 768px) {
-      main { padding: 32px 32px 40px; max-width: 560px; }
-    }
-
-    /* ── PAGE HEADER ── */
-    .page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-    .page-title { font-size: 1.25rem; font-weight: 700; color: #111; margin: 0; }
-    .avatar {
-      width: 36px; height: 36px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    /* ── QUICK START CARD ── */
-    .quick-start-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-    .quick-start-card .label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-    .quick-start-card .subject-name {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: #111;
-    }
-
-    /* ── SUBJECT CARDS ── */
-    .subject-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      transition: box-shadow 0.15s;
-    }
-    .subject-card:hover { box-shadow: 0 2px 12px rgba(79,70,229,.08); }
-    .subject-card .subject-name { font-weight: 600; font-size: 0.95rem; color: #111; }
-    .subject-card .subject-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
-
-    /* ── PLAY BUTTON ── */
-    .play-btn {
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: none;
-      color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-      cursor: pointer;
-      transition: background 0.15s, transform 0.1s;
-    }
-    .play-btn:hover { background: #4338ca; transform: scale(1.05); }
-    .play-btn svg { width: 16px; height: 16px; fill: #fff; margin-left: 2px; }
-
-    /* ── DESKTOP FAB ── */
-    .desktop-fab {
-      display: none;
-      position: fixed;
-      bottom: 32px; right: 32px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 12px 20px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(79,70,229,.35);
-      transition: background 0.15s, transform 0.1s;
-      z-index: 100;
-    }
-    .desktop-fab:hover { background: #4338ca; transform: translateY(-1px); }
-    @media (min-width: 768px) { .desktop-fab { display: flex; align-items: center; gap: 6px; } }
-
-    /* ── NEW SESSION ── */
-    .back-btn {
-      background: none; border: none; cursor: pointer;
-      color: #374151; font-size: 1.2rem; padding: 0;
-      margin-right: 8px;
-    }
-    .subject-chips {
-      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
-    }
-    .chip {
-      padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
-      cursor: pointer; border: 1.5px solid var(--border); background: var(--card-bg);
-      color: #374151; transition: all 0.15s;
-    }
-    .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    .form-label-sm { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; display: block; }
-    .form-control-flat {
-      border: none; border-bottom: 2px solid var(--border); border-radius: 0;
-      padding: 6px 2px; font-size: 1rem; font-weight: 600; color: #111;
-      background: transparent; outline: none; width: 100%; margin-bottom: 20px;
-    }
-    .form-control-flat:focus { border-color: var(--accent); }
-
-    /* range slider */
-    input[type=range] {
-      -webkit-appearance: none; width: 100%; height: 4px;
-      background: linear-gradient(to right, var(--accent) var(--val, 50%), var(--border) var(--val, 50%));
-      border-radius: 4px; margin: 8px 0 4px;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none; width: 22px; height: 22px;
-      border-radius: 50%; background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(79,70,229,.15);
-      cursor: pointer; position: relative; top: 0;
-    }
-    .range-bubble {
-      display: inline-block; background: #111; color: #fff;
-      font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 6px;
-      margin-bottom: 12px;
-    }
-
-    /* ── TIMER ── */
-    .timer-wrap {
-      display: flex; flex-direction: column; align-items: center;
-      padding: 24px 0;
-    }
-    .timer-display {
-      font-size: 5rem; font-weight: 800; color: var(--accent);
-      letter-spacing: -2px; line-height: 1;
-      margin: 24px 0 16px;
-    }
-    .timer-wave {
-      width: 220px; height: 32px;
-      margin-bottom: 32px;
-    }
-    .timer-wave path {
-      stroke: var(--accent); fill: none; stroke-width: 2.5;
-      stroke-linecap: round;
-      animation: wave 2s ease-in-out infinite;
-    }
-    @keyframes wave {
-      0%, 100% { d: path("M0 16 Q27 4 55 16 Q82 28 110 16 Q137 4 165 16 Q192 28 220 16"); }
-      50%       { d: path("M0 16 Q27 28 55 16 Q82 4 110 16 Q137 28 165 16 Q192 4 220 16"); }
-    }
-    .timer-progress {
-      width: 100%; height: 4px; background: var(--border);
-      border-radius: 4px; overflow: hidden; margin-bottom: 32px;
-    }
-    .timer-progress-bar {
-      height: 100%; width: 40%; background: var(--accent); border-radius: 4px;
-      transition: width 1s linear;
-    }
-    .timer-controls { display: flex; gap: 12px; }
-    .btn-ctrl {
-      display: flex; align-items: center; gap: 6px;
-      padding: 10px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
-      border: 1.5px solid var(--border); background: var(--card-bg); cursor: pointer;
-      transition: all 0.15s; color: #374151;
-    }
-    .btn-ctrl:hover { border-color: #9ca3af; }
-    .btn-ctrl-primary {
-      border-color: var(--accent); background: var(--accent); color: #fff;
-    }
-    .btn-ctrl-primary:hover { background: #4338ca; border-color: #4338ca; }
-
-    /* ── FINISH MODAL ── */
-    .finish-card {
-      background: var(--card-bg); border-radius: 20px;
-      border: 1px solid var(--border); padding: 28px 24px;
-    }
-    .finish-card h4 { font-weight: 700; margin-bottom: 4px; }
-    .finish-card .subtitle { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; }
-    .note-area {
-      width: 100%; min-height: 120px; border-radius: 12px;
-      border: 1.5px solid var(--border); padding: 12px 14px;
-      font-size: 0.9rem; color: #374151; resize: vertical;
-      outline: none; font-family: inherit;
-    }
-    .note-area:focus { border-color: var(--accent); }
-    .note-placeholder { color: var(--text-muted); }
-    .finish-actions { display: flex; gap: 10px; margin-top: 16px; }
-    .btn-save {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--accent); color: #fff; border: none;
-      border-radius: 100px; padding: 10px 24px; font-size: 0.875rem; font-weight: 600;
-      cursor: pointer;
-    }
-    .btn-skip {
-      background: none; border: none; color: var(--text-muted);
-      font-size: 0.875rem; cursor: pointer; padding: 10px 8px;
-    }
-
-    /* ── HISTORY ── */
-    .history-date {
-      font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
-      letter-spacing: .05em; margin: 20px 0 8px;
-    }
-    .history-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 14px 16px; margin-bottom: 8px;
-    }
-    .history-card .h-name { font-weight: 600; font-size: 0.95rem; color: #111; }
-    .history-card .h-dur { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-
-    /* ── MOBILE NAV ── */
-    .mobile-nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: var(--card-bg); border-top: 1px solid var(--border);
-      display: flex; justify-content: space-around; padding: 10px 0 14px;
-      z-index: 200;
-    }
-    .mobile-nav a {
-      text-decoration: none; color: var(--text-muted);
-      display: flex; flex-direction: column; align-items: center; gap: 2px;
-      font-size: 0.7rem; font-weight: 500; padding: 0 16px;
-      transition: color 0.15s;
-    }
-    .mobile-nav a.active { color: var(--accent); }
-    .mobile-nav .nav-icon { font-size: 1.1rem; }
-
-    /* ── BEGIN SESSION BTN ── */
-    .btn-begin {
-      width: 100%; padding: 14px; border-radius: 14px;
-      background: var(--accent); color: #fff; border: none;
-      font-size: 0.95rem; font-weight: 700; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      margin-top: 24px; transition: background 0.15s;
-    }
-    .btn-begin:hover { background: #4338ca; }
-
-    .section-label {
-      font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: .07em;
-      margin-bottom: 10px; margin-top: 4px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="d-flex">
 
-  <!-- SIDEBAR (DESKTOP) -->
   <aside class="d-none d-md-block">
     <h5>StudyBuddy</h5>
     <nav class="nav nav-pills flex-column gap-1">
-      <a href="#home"        data-page="home"        class="nav-link active">Home</a>
-      <a href="#new-session" data-page="new-session"  class="nav-link">New session</a>
-      <a href="#timer"       data-page="timer"        class="nav-link">Timer</a>
-      <a href="#history"     data-page="history"      class="nav-link">History</a>
+      <a href="index.html"       class="nav-link active">Home</a>
+      <a href="new-session.html" class="nav-link">New session</a>
+      <a href="timer.html"       class="nav-link">Timer</a>
+      <a href="history.html"     class="nav-link">History</a>
     </nav>
   </aside>
 
-  <!-- MAIN -->
   <main class="flex-grow-1">
+    <div class="page-header">
+      <h4 class="page-title">Welcome back!</h4>
+      <div class="avatar">A</div>
+    </div>
 
-    <!-- HOME -->
-    <section id="home" class="page">
-      <div class="page-header">
-        <h4 class="page-title">Welcome back!</h4>
-        <div class="avatar">A</div>
+    <div class="quick-start-card">
+      <div>
+        <div class="label">Quick start:</div>
+        <div class="subject-name">Last session: Matematika</div>
       </div>
-
-      <!-- Quick start -->
-      <div class="quick-start-card">
-        <div>
-          <div class="label">Quick start:</div>
-          <div class="subject-name">Last session: Matematika</div>
-        </div>
-        <button class="play-btn js-session-start" data-subject="Matematika" data-duration="55" data-repeats="4">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-      </div>
-
-      <!-- Subject list -->
-      <div class="section-label">Subjects</div>
-
-      <div class="subject-card">
-        <div>
-          <div class="subject-name">Matematika</div>
-          <div class="subject-meta">55 min · 1/4</div>
-        </div>
-        <button class="play-btn js-session-start" data-subject="Matematika" data-duration="55" data-repeats="4">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-      </div>
-
-      <div class="subject-card">
-        <div>
-          <div class="subject-name">Fizika</div>
-          <div class="subject-meta">40 min · 3/4</div>
-        </div>
-        <button class="play-btn js-session-start" data-subject="Fizika" data-duration="40" data-repeats="4">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-      </div>
-
-      <div class="subject-card">
-        <div>
-          <div class="subject-name">Srpski</div>
-          <div class="subject-meta">25 min · 0/4</div>
-        </div>
-        <button class="play-btn js-session-start" data-subject="Srpski" data-duration="25" data-repeats="4">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-      </div>
-    </section>
-
-    <!-- NEW SESSION -->
-    <section id="new-session" class="page d-none">
-      <div class="page-header">
-        <div class="d-flex align-items-center gap-2">
-          <button class="back-btn" onclick="showPage('home')">←</button>
-          <h4 class="page-title">New session</h4>
-        </div>
-      </div>
-
-      <div class="form-label-sm">Subject</div>
-      <div class="subject-chips" id="subjectChips">
-        <div class="chip" data-subject="Matematika">Matematika</div>
-        <div class="chip" data-subject="Fizika">Fizika</div>
-        <div class="chip active" data-subject="Srpski">Srpski</div>
-      </div>
-
-      <div class="form-label-sm">Subject</div>
-      <input id="subjectInput" class="form-control-flat" value="Srpski">
-
-      <div class="form-label-sm">Duration</div>
-      <div class="range-bubble" id="durationBubble">50 min</div>
-      <input type="range" id="duration" min="10" max="120" value="50">
-
-      <div class="form-label-sm" style="margin-top:16px;">Repeats</div>
-      <div class="range-bubble" id="repeatsBubble">1</div>
-      <input type="range" id="repeats" min="1" max="5" value="1">
-
-      <button class="btn-begin js-begin-session">
-        ▶ Begin session
+      <button class="play-btn" onclick="go('Matematika', 55, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       </button>
-    </section>
+    </div>
 
-    <!-- TIMER -->
-    <section id="timer" class="page d-none">
-      <div class="page-header">
-        <h4 class="page-title">Ongoing session</h4>
+    <div class="section-label">Subjects</div>
+
+    <div class="subject-card">
+      <div>
+        <div class="subject-name">Matematika</div>
+        <div class="subject-meta">55 min · 1/4</div>
       </div>
-      <div class="timer-wrap">
-        <div id="timerMeta" style="font-size:.8rem;color:var(--text-muted);">Srpski · 1 of 1</div>
-        <div id="timerDisplay" class="timer-display">25:00</div>
+      <button class="play-btn" onclick="go('Matematika', 55, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
 
-        <svg class="timer-wave" viewBox="0 0 220 32" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 16 Q27 4 55 16 Q82 28 110 16 Q137 4 165 16 Q192 28 220 16"/>
-        </svg>
-
-        <div class="timer-progress">
-          <div class="timer-progress-bar" id="timerProgressBar"></div>
-        </div>
-
-        <div class="timer-controls">
-          <button class="btn-ctrl" id="stopBtn">✕ Stop</button>
-          <button class="btn-ctrl" id="pauseBtn">⏸ Pause</button>
-        </div>
+    <div class="subject-card">
+      <div>
+        <div class="subject-name">Fizika</div>
+        <div class="subject-meta">40 min · 3/4</div>
       </div>
-    </section>
+      <button class="play-btn" onclick="go('Fizika', 40, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
 
-    <!-- FINISH / NOTE -->
-    <section id="complete" class="page d-none">
-      <div class="page-header">
-        <h4 class="page-title">Session complete!</h4>
+    <div class="subject-card">
+      <div>
+        <div class="subject-name">Srpski</div>
+        <div class="subject-meta">25 min · 0/4</div>
       </div>
-      <div class="finish-card">
-        <h4>Add a quick note...</h4>
-        <div class="subtitle">Today I learned...</div>
-        <textarea id="quickNote" class="note-area" placeholder="Today I learned..."></textarea>
-        <div class="finish-actions">
-          <button id="saveNoteBtn" class="btn-save">⬆ Save</button>
-          <button id="skipNoteBtn" class="btn-skip">Skip note</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- HISTORY -->
-    <section id="history" class="page d-none">
-      <div class="page-header">
-        <div class="d-flex align-items-center gap-2">
-          <button class="back-btn d-md-none" onclick="showPage('home')">←</button>
-          <h4 class="page-title">Completed sessions</h4>
-        </div>
-      </div>
-
-      <div class="history-date">2025-06-07</div>
-      <div class="history-card">
-        <div class="h-name">Matematika</div>
-        <div class="h-dur">35 min</div>
-      </div>
-
-      <div class="history-date">2025-04-20</div>
-      <div class="history-card">
-        <div class="h-name">Srpski</div>
-        <div class="h-dur">90 min</div>
-      </div>
-    </section>
-
+      <button class="play-btn" onclick="go('Srpski', 25, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
   </main>
+
 </div>
 
-<!-- DESKTOP FAB -->
-<button class="desktop-fab js-go-new">
+<a href="new-session.html" class="desktop-fab">
   <span>+</span> New session
-</button>
+</a>
 
-<!-- MOBILE NAV -->
 <nav class="mobile-nav d-md-none">
-  <a href="#home" data-page="home" class="active">
+  <a href="index.html" class="active">
     <span class="nav-icon">★</span>
     <span>Home</span>
   </a>
-  <a href="#new-session" data-page="new-session">
+  <a href="new-session.html">
     <span class="nav-icon">+</span>
     <span>New session</span>
   </a>
-  <a href="#history" data-page="history">
+  <a href="history.html">
     <span class="nav-icon">◷</span>
     <span>History</span>
   </a>
 </nav>
 
 <script>
-// ── Page routing ──
-let currentPage = 'home';
-let activeSession = {};
-let timerInterval = null;
-let timeLeft = 0;
-let isPaused = false;
-
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.add('d-none'));
-  const el = document.getElementById(id);
-  if (el) el.classList.remove('d-none');
-  currentPage = id;
-
-  // Sync sidebar
-  document.querySelectorAll('[data-page]').forEach(a => {
-    a.classList.toggle('active', a.dataset.page === id);
-  });
-
-  // Sync mobile nav
-  document.querySelectorAll('.mobile-nav [data-page]').forEach(a => {
-    a.classList.toggle('active', a.dataset.page === id);
-  });
-
-  // Update URL hash silently
-  history.replaceState(null, '', '#' + id);
-}
-
-window.addEventListener('hashchange', () => {
-  const id = location.hash.replace('#', '') || 'home';
-  if (id !== currentPage) showPage(id);
-});
-
-// ── Start session ──
-function startSession(subject, duration, repeats) {
-  activeSession = { subject, duration: parseInt(duration), repeats: parseInt(repeats) };
-  timeLeft = activeSession.duration * 60;
-  isPaused = false;
-
-  document.getElementById('timerMeta').textContent =
-    `${subject} · 1 of ${repeats}`;
-  updateTimerDisplay();
-  updateProgressBar(1, timeLeft, activeSession.duration * 60);
-  showPage('timer');
-  startCountdown();
-}
-
-function updateTimerDisplay() {
-  const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-  const s = (timeLeft % 60).toString().padStart(2, '0');
-  document.getElementById('timerDisplay').textContent = `${m}:${s}`;
-}
-
-function updateProgressBar(current, remaining, total) {
-  const pct = ((total - remaining) / total * 100).toFixed(1);
-  document.getElementById('timerProgressBar').style.width = pct + '%';
-}
-
-function startCountdown() {
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    if (isPaused) return;
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      showPage('complete');
-      return;
-    }
-    timeLeft--;
-    updateTimerDisplay();
-    updateProgressBar(1, timeLeft, activeSession.duration * 60);
-  }, 1000);
-}
-
-// ── Event delegation for session start ──
-document.addEventListener('click', e => {
-  const btn = e.target.closest('.js-session-start');
-  if (btn) {
-    const { subject, duration, repeats } = btn.dataset;
-    startSession(subject, duration, repeats);
+  function go(subject, duration, repeats) {
+    sessionStorage.setItem('session', JSON.stringify({ subject, duration, repeats }));
+    window.location.href = 'timer.html';
   }
-});
-
-document.querySelector('.js-begin-session').addEventListener('click', () => {
-  const subject = document.getElementById('subjectInput').value || 'Session';
-  const duration = document.getElementById('duration').value;
-  const repeats  = document.getElementById('repeats').value;
-  startSession(subject, duration, repeats);
-});
-
-// ── Timer controls ──
-document.getElementById('pauseBtn').addEventListener('click', () => {
-  isPaused = !isPaused;
-  document.getElementById('pauseBtn').textContent = isPaused ? '▶ Resume' : '⏸ Pause';
-});
-
-document.getElementById('stopBtn').addEventListener('click', () => {
-  clearInterval(timerInterval);
-  showPage('home');
-});
-
-// ── Finish / save note ──
-document.getElementById('saveNoteBtn').addEventListener('click', () => showPage('history'));
-document.getElementById('skipNoteBtn').addEventListener('click', () => showPage('history'));
-
-// ── Desktop FAB ──
-document.querySelector('.js-go-new').addEventListener('click', () => showPage('new-session'));
-
-// ── Range sliders ──
-function syncRange(inputId, bubbleId, suffix) {
-  const input = document.getElementById(inputId);
-  const bubble = document.getElementById(bubbleId);
-  function update() {
-    const min = +input.min, max = +input.max, val = +input.value;
-    const pct = ((val - min) / (max - min) * 100).toFixed(1);
-    input.style.setProperty('--val', pct + '%');
-    bubble.textContent = val + suffix;
-  }
-  input.addEventListener('input', update);
-  update();
-}
-syncRange('duration', 'durationBubble', ' min');
-syncRange('repeats',  'repeatsBubble',  '');
-
-// ── Subject chips ──
-document.getElementById('subjectChips').addEventListener('click', e => {
-  const chip = e.target.closest('.chip');
-  if (!chip) return;
-  document.querySelectorAll('#subjectChips .chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
-  document.getElementById('subjectInput').value = chip.dataset.subject;
-});
-
-// Subject input syncs back to chips
-document.getElementById('subjectInput').addEventListener('input', e => {
-  const val = e.target.value;
-  document.querySelectorAll('#subjectChips .chip').forEach(c => {
-    c.classList.toggle('active', c.dataset.subject === val);
-  });
-});
-
-// ── New-session button data sync ──
-const durationInput = document.getElementById('duration');
-const repeatsInput  = document.getElementById('repeats');
-function syncBeginBtn() {
-  const btn = document.querySelector('.js-begin-session');
-  btn.dataset.subject  = document.getElementById('subjectInput').value;
-  btn.dataset.duration = durationInput.value;
-  btn.dataset.repeats  = repeatsInput.value;
-}
-durationInput.addEventListener('input', syncBeginBtn);
-repeatsInput.addEventListener('input',  syncBeginBtn);
-document.getElementById('subjectInput').addEventListener('input', syncBeginBtn);
-
-// ── Init ──
-showPage('home');
 </script>
 </body>
 </html>
