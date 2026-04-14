@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StudyBuddy – New session</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="d-flex">
+
+  <aside class="d-none d-md-block">
+    <h5>StudyBuddy</h5>
+    <nav class="nav nav-pills flex-column gap-1">
+      <a href="index.html"       class="nav-link">Home</a>
+      <a href="new-session.html" class="nav-link active">New session</a>
+      <a href="timer.html"       class="nav-link">Timer</a>
+      <a href="history.html"     class="nav-link">History</a>
+    </nav>
+  </aside>
+
+  <main class="flex-grow-1">
+    <div class="page-header">
+      <div class="d-flex align-items-center gap-2">
+        <a href="index.html" class="back-btn">←</a>
+        <h4 class="page-title">New session</h4>
+      </div>
+    </div>
+
+    <div class="form-label-sm">Subject</div>
+    <div class="subject-chips" id="subjectChips">
+      <div class="chip" data-subject="Matematika">Matematika</div>
+      <div class="chip" data-subject="Fizika">Fizika</div>
+      <div class="chip active" data-subject="Srpski">Srpski</div>
+    </div>
+
+    <div class="form-label-sm">Subject</div>
+    <input id="subjectInput" class="form-control-flat" value="Srpski">
+
+    <div class="form-label-sm">Duration</div>
+    <div class="range-bubble" id="durationBubble">50 min</div>
+    <input type="range" id="duration" min="10" max="120" value="50">
+
+    <div class="form-label-sm" style="margin-top:16px;">Repeats</div>
+    <div class="range-bubble" id="repeatsBubble">1</div>
+    <input type="range" id="repeats" min="1" max="5" value="1">
+
+    <button class="btn-begin" id="beginBtn">▶ Begin session</button>
+  </main>
+
+</div>
+
+<a href="new-session.html" class="desktop-fab">
+  <span>+</span> New session
+</a>
+
+<nav class="mobile-nav d-md-none">
+  <a href="index.html">
+    <span class="nav-icon">★</span>
+    <span>Home</span>
+  </a>
+  <a href="new-session.html" class="active">
+    <span class="nav-icon">+</span>
+    <span>New session</span>
+  </a>
+  <a href="history.html">
+    <span class="nav-icon">◷</span>
+    <span>History</span>
+  </a>
+</nav>
+
+<script>
+  function syncRange(inputId, bubbleId, suffix) {
+    var input  = document.getElementById(inputId);
+    var bubble = document.getElementById(bubbleId);
+    function update() {
+      var pct = ((input.value - input.min) / (input.max - input.min) * 100).toFixed(1);
+      input.style.setProperty('--val', pct + '%');
+      bubble.textContent = input.value + suffix;
+    }
+    input.addEventListener('input', update);
+    update();
+  }
+  syncRange('duration', 'durationBubble', ' min');
+  syncRange('repeats',  'repeatsBubble',  '');
+
+  document.getElementById('subjectChips').addEventListener('click', function(e) {
+    var chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll('#subjectChips .chip').forEach(function(c) { c.classList.remove('active'); });
+    chip.classList.add('active');
+    document.getElementById('subjectInput').value = chip.dataset.subject;
+  });
+
+  document.getElementById('subjectInput').addEventListener('input', function(e) {
+    document.querySelectorAll('#subjectChips .chip').forEach(function(c) {
+      c.classList.toggle('active', c.dataset.subject === e.target.value);
+    });
+  });
+
+  document.getElementById('beginBtn').addEventListener('click', function() {
+    var session = {
+      subject:  document.getElementById('subjectInput').value || 'Session',
+      duration: parseInt(document.getElementById('duration').value),
+      repeats:  parseInt(document.getElementById('repeats').value)
+    };
+    sessionStorage.setItem('session', JSON.stringify(session));
+    window.location.href = 'timer.html';
+  });
+</script>
+</body>
+</html>

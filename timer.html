@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StudyBuddy – Timer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="d-flex">
+
+  <aside class="d-none d-md-block">
+    <h5>StudyBuddy</h5>
+    <nav class="nav nav-pills flex-column gap-1">
+      <a href="index.html"       class="nav-link">Home</a>
+      <a href="new-session.html" class="nav-link">New session</a>
+      <a href="timer.html"       class="nav-link active">Timer</a>
+      <a href="history.html"     class="nav-link">History</a>
+    </nav>
+  </aside>
+
+  <main class="flex-grow-1">
+    <div class="page-header">
+      <h4 class="page-title">Ongoing session</h4>
+    </div>
+
+    <div class="timer-wrap">
+      <div id="timerMeta" style="font-size:.8rem; color:var(--text-muted);">—</div>
+      <div id="timerDisplay" class="timer-display">00:00</div>
+
+      <svg class="timer-wave" viewBox="0 0 220 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 16 Q27 4 55 16 Q82 28 110 16 Q137 4 165 16 Q192 28 220 16"/>
+      </svg>
+
+      <div class="timer-progress">
+        <div class="timer-progress-bar" id="timerProgressBar"></div>
+      </div>
+
+      <div class="timer-controls">
+        <button class="btn-ctrl" id="stopBtn">✕ Stop</button>
+        <button class="btn-ctrl" id="pauseBtn">⏸ Pause</button>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<nav class="mobile-nav d-md-none">
+  <a href="index.html">
+    <span class="nav-icon">★</span>
+    <span>Home</span>
+  </a>
+  <a href="new-session.html">
+    <span class="nav-icon">+</span>
+    <span>New session</span>
+  </a>
+  <a href="history.html">
+    <span class="nav-icon">◷</span>
+    <span>History</span>
+  </a>
+</nav>
+
+<script>
+  var session = JSON.parse(sessionStorage.getItem('session') || '{}');
+
+  if (!session.subject) {
+    window.location.href = 'index.html';
+  }
+
+  var totalTime = session.duration * 60;
+  var timeLeft  = totalTime;
+  var isPaused  = false;
+  var interval  = null;
+
+  document.getElementById('timerMeta').textContent =
+    session.subject + ' · 1 of ' + session.repeats;
+
+  function updateDisplay() {
+    var m = Math.floor(timeLeft / 60);
+    var s = timeLeft % 60;
+    if (m < 10) m = '0' + m;
+    if (s < 10) s = '0' + s;
+    document.getElementById('timerDisplay').textContent = m + ':' + s;
+  }
+
+  function updateBar() {
+    var pct = ((totalTime - timeLeft) / totalTime * 100).toFixed(1);
+    document.getElementById('timerProgressBar').style.width = pct + '%';
+  }
+
+  updateDisplay();
+
+  interval = setInterval(function() {
+    if (isPaused) return;
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      window.location.href = 'complete.html';
+      return;
+    }
+    timeLeft--;
+    updateDisplay();
+    updateBar();
+  }, 1000);
+
+  document.getElementById('pauseBtn').addEventListener('click', function() {
+    isPaused = !isPaused;
+    document.getElementById('pauseBtn').textContent = isPaused ? '▶ Resume' : '⏸ Pause';
+  });
+
+  document.getElementById('stopBtn').addEventListener('click', function() {
+    clearInterval(interval);
+    window.location.href = 'index.html';
+  });
+</script>
+</body>
+</html>
