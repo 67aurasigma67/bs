@@ -3,152 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>StudyBuddy – History</title>
+  <title>StudyBuddy</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* ── Carousel wrapper ── */
-    .study-carousel-wrap {
-      padding: 1rem 1rem 0.5rem;
-    }
-
-    /* Fiksna visina na svim uređajima – slike se crop-uju da popune prostor */
-    #studyCarousel .carousel-inner,
-    #studyCarousel .carousel-item {
-      height: 220px;          /* ← promeni visinu po ukusu */
-    }
-
-    @media (min-width: 768px) {
-      #studyCarousel .carousel-inner,
-      #studyCarousel .carousel-item {
-        height: 320px;        /* malo veće na desktopu */
-      }
-    }
-
-    #studyCarousel .carousel-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;      /* sve 3 slike iste veličine, bez deformacije */
-      border-radius: 12px;
-    }
-
-    /* Strelice – tamnije, vidljive i na svetlim slikama */
-    #studyCarousel .carousel-control-prev-icon,
-    #studyCarousel .carousel-control-next-icon {
-      filter: invert(0) drop-shadow(0 0 3px rgba(0,0,0,.6));
-    }
-
-    /* Indikatori (tačkice) */
-    #studyCarousel .carousel-indicators [data-bs-target] {
-      border-radius: 50%;
-      width: 8px;
-      height: 8px;
-    }
-  </style>
 </head>
 <body>
+
 <div class="d-flex">
+
   <aside class="d-none d-md-block">
     <h5>StudyBuddy</h5>
     <nav class="nav nav-pills flex-column gap-1">
-      <a href="index.html"       class="nav-link">Home</a>
+      <a href="index.html"       class="nav-link active">Home</a>
       <a href="new-session.html" class="nav-link">New session</a>
       <a href="timer.html"       class="nav-link">Timer</a>
-      <a href="history.html"     class="nav-link active">History</a>
+      <a href="history.html"     class="nav-link">History</a>
     </nav>
   </aside>
 
   <main class="flex-grow-1">
     <div class="page-header">
-      <div class="d-flex align-items-center gap-2">
-        <a href="index.html" class="back-btn d-md-none">←</a>
-        <h4 class="page-title">Completed sessions</h4>
+      <h4 class="page-title">Welcome back!</h4>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="quick-start-card">
+      <div>
+        <div class="label">Quick start:</div>
+        <div class="subject-name">Last session: Matematika</div>
       </div>
+      <button class="play-btn" onclick="go('Matematika', 55, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
     </div>
 
-    <!-- ════════════════════════════════════════
-         CAROUSEL  –  zameni src="slika1.jpg" itd.
-         sopstvenim putanjama ili URL-ovima slika
-         ════════════════════════════════════════ -->
-    <div class="study-carousel-wrap">
-      <div id="studyCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="section-label">Subjects</div>
 
-        <!-- Indikatori (tačkice ispod) -->
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#studyCarousel" data-bs-slide-to="0"
-                  class="active" aria-current="true" aria-label="Slika 1"></button>
-          <button type="button" data-bs-target="#studyCarousel" data-bs-slide-to="1"
-                  aria-label="Slika 2"></button>
-          <button type="button" data-bs-target="#studyCarousel" data-bs-slide-to="2"
-                  aria-label="Slika 3"></button>
-        </div>
-
-        <!-- Slike -->
-        <div class="carousel-inner">
-
-          <!-- ► SLIKA 1 (desktop) / SLIKA 4 (mobitel) -->
-          <div class="carousel-item active">
-            <picture>
-              <source media="(max-width: 767px)" srcset="slika4.jpg">
-              <img src="slika1.jpg" alt="Slika 1">
-            </picture>
-          </div>
-
-          <!-- ► SLIKA 2 (desktop) / SLIKA 5 (mobitel) -->
-          <div class="carousel-item">
-            <picture>
-              <source media="(max-width: 767px)" srcset="slika5.jpg">
-              <img src="slika2.jpg" alt="Slika 2">
-            </picture>
-          </div>
-
-          <!-- ► SLIKA 3 (desktop) / SLIKA 6 (mobitel) -->
-          <div class="carousel-item">
-            <picture>
-              <source media="(max-width: 767px)" srcset="slika6.jpg">
-              <img src="slika3.jpg" alt="Slika 3">
-            </picture>
-          </div>
-
-        </div><!-- /carousel-inner -->
-
-        <!-- Strelica levo -->
-        <button class="carousel-control-prev" type="button"
-                data-bs-target="#studyCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Prethodna</span>
-        </button>
-
-        <!-- Strelica desno -->
-        <button class="carousel-control-next" type="button"
-                data-bs-target="#studyCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Sledeća</span>
-        </button>
-
-      </div><!-- /carousel -->
-    </div><!-- /carousel-wrap -->
-    <!-- ════════════════════════════════════════ -->
-
-    <!-- History items -->
-    <div class="history-date">2025-06-07</div>
-    <div class="history-card">
-      <div class="h-name">Matematika</div>
-      <div class="h-dur">35 min</div>
+    <div class="subject-card">
+      <div>
+        <div class="subject-name">Matematika</div>
+        <div class="subject-meta">55 min · 1/4</div>
+      </div>
+      <button class="play-btn" onclick="go('Matematika', 55, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
     </div>
-    <div class="history-date">2025-04-20</div>
-    <div class="history-card">
-      <div class="h-name">Srpski</div>
-      <div class="h-dur">90 min</div>
+
+    <div class="subject-card">
+      <div>
+        <div class="subject-name">Fizika</div>
+        <div class="subject-meta">40 min · 3/4</div>
+      </div>
+      <button class="play-btn" onclick="go('Fizika', 40, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+
+    <div class="subject-card">
+      <div>
+        <div class="subject-name">Srpski</div>
+        <div class="subject-meta">25 min · 0/4</div>
+      </div>
+      <button class="play-btn" onclick="go('Srpski', 25, 4)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
     </div>
   </main>
+
 </div>
 
 <a href="new-session.html" class="desktop-fab">
   <span>+</span> New session
 </a>
+
 <nav class="mobile-nav d-md-none">
-  <a href="index.html">
+  <a href="index.html" class="active">
     <span class="nav-icon">★</span>
     <span>Home</span>
   </a>
@@ -156,12 +85,17 @@
     <span class="nav-icon">+</span>
     <span>New session</span>
   </a>
-  <a href="history.html" class="active">
+  <a href="history.html">
     <span class="nav-icon">◷</span>
     <span>History</span>
   </a>
 </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function go(subject, duration, repeats) {
+    sessionStorage.setItem('session', JSON.stringify({ subject, duration, repeats }));
+    window.location.href = 'timer.html';
+  }
+</script>
 </body>
 </html>
